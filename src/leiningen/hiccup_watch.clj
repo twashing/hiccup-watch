@@ -12,7 +12,7 @@
   (def idx (slurp from-path))
   (def idx-form (read-string idx))
 
-  (def result-page (hiccup/html {} idx-form))
+  (def result-page (hpage/html5 {} idx-form))
 
   ;; iii. spit out result page(s)
   ;; iv. to a configured location
@@ -48,14 +48,14 @@
         (filevents/watch
          (fn [kind file]
 
-           (println "hiccup-watch[" kind "]: " file)
-
            (if-not (= :delete kind)
              (if-not (re-find #"\.html" (.getName file))
-               (let [output-file-name (str output-final
-                                           (string/replace-first (. file getName) #"\.edn" "")
-                                           ".html")]
-                 (gen-html file output-file-name)))))
+               (do
+                 (println "hiccup-watch[" kind "]: " file)
+                 (let [output-file-name (str output-final
+                                             (string/replace-first (. file getName) #"\.edn" "")
+                                             ".html")]
+                   (gen-html file output-file-name))))))
          output-final)
 
 
