@@ -1,3 +1,4 @@
 -- better mechanism for watching
 -- have better loggin than println
-
+-- give option of spitting out HTML4 or HTML5
+-- better notification when we have started to Watch
