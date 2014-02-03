@@ -56,7 +56,7 @@
                  (println "hiccup-watch[" kind "]: " file)
                  (let [input-file-extension (if (re-find #"\.edn" (.getName file)) #"\.edn" #"\.clj")
                        output-file-name (str output-final
-                                             "/"
+                                             java.io.File/separator
                                              (string/replace-first (. file getName) input-file-extension "")
                                              ".html")]
                    (gen-html file output-file-name))))))
