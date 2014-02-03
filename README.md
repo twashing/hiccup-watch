@@ -1,6 +1,6 @@
 # hiccup-watch
 
-This is a leiningen plugin that just watches for changes in your Hiccup source files
+This is a leiningen plugin that just watches for changes in your [Hiccup](https://github.com/weavejester/hiccup) source files. ***"Hiccup is a library for representing HTML in Clojure"***.
 
 
 ## Usage

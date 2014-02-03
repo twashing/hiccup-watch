@@ -2,3 +2,6 @@
 -- have better loggin than println
 -- give option of spitting out HTML4 or HTML5
 -- better notification when we have started to Watch
+-- improve error reporting for bad input files
+-- abstract away commonalities between hiccup-watch and garden-watch
+-- proper let binding in gen-html and gen-css
