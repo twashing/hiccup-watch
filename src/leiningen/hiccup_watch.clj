@@ -1,6 +1,7 @@
 (ns leiningen.hiccup-watch
   (:require [clojure.string :as string]
             [filevents.core :as filevents]
+            [hiccup.core :as hiccup]
             [hiccup.page :as hpage] ))
 
 
@@ -11,7 +12,7 @@
   (def idx (slurp from-path))
   (def idx-form (read-string idx))
 
-  (def result-page (hpage/html5 {} idx-form))
+  (def result-page (hiccup/html {} idx-form))
 
   ;; iii. spit out result page(s)
   ;; iv. to a configured location
@@ -43,18 +44,22 @@
       (println "ERROR: both :input-dir and :output-dir not specified. Exiting")
       (do
 
+        ;; Watch the directory
         (filevents/watch
          (fn [kind file]
 
-           (println "kind: " kind)
-           (println "file: " file)
+           (println "hiccup-watch[" kind "]: " file)
 
-           (if-not :delete
-             (let [output-file-name (str output-final (string/replace-first (. file getName) #"\.edn" ""))]
-               (gen-html file output-file-name))))
+           (if-not (= :delete kind)
+             (if-not (re-find #"\.html" (.getName file))
+               (let [output-file-name (str output-final
+                                           (string/replace-first (. file getName) #"\.edn" "")
+                                           ".html")]
+                 (gen-html file output-file-name)))))
          output-final)
 
-        ;; Kludge to block leiningen from exiting... yes, I know it bad
+
+        ;; Kludge to block leiningen from exiting... yes, I know it's bad
         (loop []
           (Thread/sleep 100)
           (recur))
