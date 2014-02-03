@@ -1,7 +1,7 @@
 (defproject hiccup-watch "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Hiccup source to HTML watcher and converter"
+  :url "https://github.com/twashing/hiccup-watch"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 

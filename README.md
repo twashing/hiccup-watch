@@ -1,22 +1,26 @@
 # hiccup-watch
 
-A Leiningen plugin to do many wonderful things.
+This is a leiningen plugin that just watches for changes in your Hiccup source files
+
 
 ## Usage
 
-FIXME: Use this for user-level plugins:
 
-Put `[hiccup-watch "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your
-`:user` profile, or if you are on Leiningen 1.x do `lein plugin install
-hiccup-watch 0.1.0-SNAPSHOT`.
+To use this plugin across your projects, put `[hiccup-watch "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your `:user` profile.
 
-FIXME: Use this for project-level plugins:
+Or if you are on Leiningen 1.x do `lein plugin install hiccup-watch 0.1.0-SNAPSHOT`.
 
-Put `[hiccup-watch "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your project.clj.
+To install this plugin at a project level, put `[hiccup-watch "0.1.0-SNAPSHOT"]` into the `:plugins` vector of your project.clj.
 
-FIXME: and add an example usage that actually makes sense:
+You can set this configuration `{:hiccup-watch {:input-dir "in/" :output-dir "out/"}}` in your project.clj. Then you can just call the plugin like so.
 
     $ lein hiccup-watch
+
+
+Or you can just pass in those parameters directly. This also acts as an override to the configured values.
+
+    $ lein hiccup-watch :input-dir in/ :output-dir out/
+
 
 ## License
 
