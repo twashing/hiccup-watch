@@ -49,12 +49,15 @@
          (fn [kind file]
 
            (if-not (= :delete kind)
-             (if-not (re-find #"\.html" (.getName file))
+             (if (or (re-find #"\.edn" (.getName file))
+                     (re-find #"\.clj" (.getName file)))
                (do
+
                  (println "hiccup-watch[" kind "]: " file)
-                 (let [output-file-name (str output-final
+                 (let [input-file-extension (if (re-find #"\.edn" (.getName file)) #"\.edn" #"\.clj")
+                       output-file-name (str output-final
                                              "/"
-                                             (string/replace-first (. file getName) #"\.edn" "")
+                                             (string/replace-first (. file getName) input-file-extension "")
                                              ".html")]
                    (gen-html file output-file-name))))))
          input-final)
