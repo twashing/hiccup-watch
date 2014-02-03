@@ -53,15 +53,14 @@
                (do
                  (println "hiccup-watch[" kind "]: " file)
                  (let [output-file-name (str output-final
+                                             "/"
                                              (string/replace-first (. file getName) #"\.edn" "")
                                              ".html")]
                    (gen-html file output-file-name))))))
-         output-final)
+         input-final)
 
 
         ;; Kludge to block leiningen from exiting... yes, I know it's bad
         (loop []
           (Thread/sleep 100)
-          (recur))
-
-        ))))
+          (recur))))))
