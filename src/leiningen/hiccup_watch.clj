@@ -1,9 +1,7 @@
 (ns leiningen.hiccup-watch
-  (:import [java.util.concurrent
-            ThreadFactory ScheduledThreadPoolExecutor TimeUnit Executors ExecutorService])
   (:require [clojure.string :as string]
             [filevents.core :as filevents]
-            [hiccup.page :as hpage]))
+            [hiccup.page :as hpage] ))
 
 
 (defn gen-html [from-path to-path]
@@ -40,14 +38,11 @@
         input-final (if input-override input-override input-dir)
         output-final (if output-override output-override output-dir)]
 
-    (println (str "input-final: " input-final))
-    (println (str "output-final: " output-final))
-
-
 
     (if-not (and input-final output-final)
       (println "ERROR: both :input-dir and :output-dir not specified. Exiting")
       (do
+
         (filevents/watch
          (fn [kind file]
 
@@ -57,59 +52,11 @@
            (if-not :delete
              (let [output-file-name (str output-final (string/replace-first (. file getName) #"\.edn" ""))]
                (gen-html file output-file-name))))
-         "public"))
+         output-final)
 
-      #_(do
+        ;; Kludge to block leiningen from exiting... yes, I know it bad
+        (loop []
+          (Thread/sleep 100)
+          (recur))
 
-        (defn generate-id
-          "generate system wide unique ID"
-          []
-          (.. (java.rmi.dgc.VMID.) toString (replaceAll ":" "") (replaceAll "-" "")))
-
-        (defn- random-thread-name [prefix]
-          (str prefix "-" (generate-id)))
-
-        (defn thread-factory [thread-name-prefix]
-          (proxy [ThreadFactory] []
-            (newThread [runfn]
-              (Thread. runfn (random-thread-name thread-name-prefix)))))
-
-        (defn scheduled-executor [pool-size thread-name-prefix]
-          (->> thread-name-prefix
-               thread-factory
-               (ScheduledThreadPoolExecutor. pool-size)))
-
-        (defonce SCHEDULED-EXECUTOR (scheduled-executor (.availableProcessors (Runtime/getRuntime))
-                                                        "hiccup-watch"))
-
-        (defn- safe-fn [runfn descriptor]
-          #(try
-             (runfn)
-             (catch Exception e
-               (println (str "Error periodically executing " descriptor)))))
-
-        (defn run-periodically [descriptor runfn time-period-millis]
-          (.scheduleAtFixedRate SCHEDULED-EXECUTOR
-                                (safe-fn runfn descriptor)
-                                time-period-millis
-                                time-period-millis
-                                TimeUnit/MILLISECONDS))
-
-        (run-periodically "thing" (fn [] (println "Xxx...")) 500))
-      #_(do
-        (let [service-fn (fn []
-                           (println "Watching... ")
-                           (filevents/watch
-                            (fn [kind file]
-
-                              (println "kind: " kind)
-                              (println "file: " file)
-
-                              (if-not :delete
-                                (let [output-file-name (str output-final (string/replace-first (. file getName) #"\.edn" ""))]
-                                  (gen-html file output-file-name))))
-                            "public"))
-              executor-service-pool (java.util.concurrent.Executors/newFixedThreadPool 2)
-              _ (.invokeAll executor-service-pool [service-fn])]
-
-          )))))
+        ))))
