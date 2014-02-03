@@ -44,7 +44,7 @@
       (println "ERROR: both :input-dir and :output-dir not specified. Exiting")
       (do
 
-        (println "Hiccup-watch started...")
+        (println "hiccup-watch started...")
 
         ;; Watch the directory
         (filevents/watch
