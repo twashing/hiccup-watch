@@ -1,4 +1,4 @@
-(defproject hiccup-watch "0.1.0-SNAPSHOT"
+(defproject hiccup-watch "0.1.0"
 
   :description "Hiccup source to HTML watcher and converter"
   :url "https://github.com/twashing/hiccup-watch"
