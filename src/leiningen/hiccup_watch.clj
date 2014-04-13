@@ -1,5 +1,6 @@
 (ns leiningen.hiccup-watch
-  (:require [clojure.string :as string]
+  (:require [taoensso.timbre :as timbre]
+            [clojure.string :as string]
             [filevents.core :as filevents]
             [hiccup.core :as hiccup]
             [hiccup.page :as hpage] ))
@@ -16,7 +17,7 @@
 
   ;; iii. spit out result page(s)
   ;; iv. to a configured location
-  (println (str "writing out file: " to-path))
+  (timbre/debug (str "writing out file: " to-path))
   (spit to-path result-page))
 
 
@@ -41,10 +42,10 @@
 
 
     (if-not (and input-final output-final)
-      (println "ERROR: both :input-dir and :output-dir not specified. Exiting")
+      (timbre/error "Both :input-dir and :output-dir not specified. Exiting")
       (do
 
-        (println "hiccup-watch started...")
+        (timbre/debug "hiccup-watch started...")
 
         ;; Watch the directory
         (filevents/watch
@@ -55,7 +56,7 @@
                      (re-find #"\.clj" (.getName file)))
                (do
 
-                 (println "hiccup-watch[" kind "]: " file)
+                 (timbre/debug "hiccup-watch[" kind "]: " file)
                  (let [input-file-extension (if (re-find #"\.edn" (.getName file)) #"\.edn" #"\.clj")
                        output-file-name (str output-final
                                              java.io.File/separator
