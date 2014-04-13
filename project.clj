@@ -1,4 +1,4 @@
-(defproject hiccup-watch "0.1.1"
+(defproject hiccup-watch "0.1.2-SNAPSHOT"
   :description "Hiccup source to HTML watcher and converter"
   :url "https://github.com/twashing/hiccup-watch"
   :license {:name "Eclipse Public License"
