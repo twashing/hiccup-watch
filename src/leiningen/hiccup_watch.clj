@@ -1,5 +1,6 @@
 (ns leiningen.hiccup-watch
   (:require [taoensso.timbre :as timbre]
+            [clojure.java.io :refer [make-parents]]
             [clojure.string :as string]
             [filevents.core :as filevents]
             [hiccup.core :as hiccup]
@@ -17,6 +18,7 @@
 
   ;; iii. spit out result page(s)
   ;; iv. to a configured location
+  (make-parents to-path)
   (timbre/debug (str "writing out file: " to-path))
   (spit to-path result-page))
 
